@@ -1,5 +1,4 @@
 <?php
-
 namespace SilverStripe\ElementalBlocks\Block;
 
 use SilverStripe\CMS\Model\SiteTree;
@@ -8,6 +7,7 @@ use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\HTMLEditor\TinyMCEConfig;
 use SilverStripe\View\ArrayData;
 use SilverStripe\View\Requirements;
+use SilverStripe\Forms\NumericField;
 
 class BannerBlock extends FileBlock
 {
@@ -16,8 +16,13 @@ class BannerBlock extends FileBlock
     private static $db = [
         'Content' => 'HTMLText',
         'CallToActionLink' => 'Link',
-        'BannerHeight' => 'Number'
+        'BannerHeight' => 'Int'
     ];
+
+    private static $defaults = [
+        "BannerHeight" => 300,
+    ];
+
 
     private static $singular_name = 'banner';
 
@@ -39,8 +44,14 @@ class BannerBlock extends FileBlock
             // Move the file upload field to be before the content
             $upload = $fields->fieldByName('Root.Main.File');
             $fields->insertBefore('Content', $upload);
-            $fields->insertBefore('BannerHeight', 'Banner Height');
-
+            $heightField = NumericField::create('BannerHeight', 'Banner Height')
+                ->setDescription('Specify height of the banner value in terms of number of pixels (For example: 250)')
+                ->setAttribute('value', $this->BannerHeight ? $this->BannerHeight : 300);
+            $fields->addFieldToTab(
+                'Root.Main',
+                $heightField,
+                'Content'
+            );
             // Set the height of the content fields
             $fields->fieldByName('Root.Main.Content')->setRows(5);
         });
