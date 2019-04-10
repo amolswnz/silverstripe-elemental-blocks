@@ -16,6 +16,7 @@ class BannerBlock extends FileBlock
     private static $db = [
         'Content' => 'HTMLText',
         'CallToActionLink' => 'Link',
+        'BannerHeight' => 'Number'
     ];
 
     private static $singular_name = 'banner';
@@ -38,6 +39,7 @@ class BannerBlock extends FileBlock
             // Move the file upload field to be before the content
             $upload = $fields->fieldByName('Root.Main.File');
             $fields->insertBefore('Content', $upload);
+            $fields->insertBefore('BannerHeight', 'Banner Height');
 
             // Set the height of the content fields
             $fields->fieldByName('Root.Main.Content')->setRows(5);
