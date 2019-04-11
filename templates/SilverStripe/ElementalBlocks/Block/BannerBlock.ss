@@ -1,9 +1,9 @@
 <%-- Display the image (File) --%>
 <% if $File %>
-    <span class="banner-element__image">
+    <span class="banner-element__image" style="height: <% if $BannerHeight %>$BannerHeight<% else %>300<% end_if %>px">>
         $File
     </span>
-    
+
 <% end_if %>
 <div class="banner-element__content">
     <% if $Title && $ShowTitle %>
