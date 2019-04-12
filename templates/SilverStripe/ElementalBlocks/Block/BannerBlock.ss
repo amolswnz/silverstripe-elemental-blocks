@@ -14,7 +14,7 @@
 
     <%-- Add a CallToActionLink if available --%>
     <% if $CallToActionLink.Page.Link %>
-        <div class="banner-element__call-to-action-container">
+        <div class="banner-element__call-to-action-container {$ForegroundColour}">
         <% with $CallToActionLink %>
             <a href="{$Page.Link}" class="banner-element__call-to-action"
                 <% if $TargetBlank %>target="_blank"<% end_if %>

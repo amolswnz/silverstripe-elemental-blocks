@@ -1,13 +1,16 @@
 <?php
 namespace SilverStripe\ElementalBlocks\Block;
 
+use Meridian\Lux\Helpers\MeridianConfig;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Core\Convert;
+use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\HTMLEditor\TinyMCEConfig;
+use SilverStripe\Forms\NumericField;
+use SilverStripe\Forms\TextField;
 use SilverStripe\View\ArrayData;
 use SilverStripe\View\Requirements;
-use SilverStripe\Forms\NumericField;
 
 class BannerBlock extends FileBlock
 {
@@ -16,7 +19,8 @@ class BannerBlock extends FileBlock
     private static $db = [
         'Content' => 'HTMLText',
         'CallToActionLink' => 'Link',
-        'BannerHeight' => 'Int'
+        'BannerHeight' => 'Int',
+        'ForegroundColour' => 'Varchar(25)'
     ];
 
     private static $defaults = [
@@ -50,6 +54,13 @@ class BannerBlock extends FileBlock
                 'Root.Main',
                 $heightField,
                 'Content'
+            );
+
+            $colours = MeridianConfig::config()->get('text_colours');
+            $fields->addFieldsToTab(
+                'Root.Main',
+                DropdownField::create('ForegroundColour', 'Foreground text colour', $colours),
+                'CallToActionLink'
             );
             // Set the height of the content fields
             $fields->fieldByName('Root.Main.Content')->setRows(5);
